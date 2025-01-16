@@ -71,7 +71,7 @@ function App() {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("TOKEN");
     
-    alert(token);
+    
     fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
