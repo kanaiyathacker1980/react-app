@@ -1,7 +1,7 @@
 name: Print Hello World
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 jobs:
   build:
     runs-on: ubuntu-latest
