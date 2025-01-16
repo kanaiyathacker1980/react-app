@@ -20,6 +20,14 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Create .env file
+        run: |
+          echo "REACT_APP_GITHUB_TOKEN=${{ secrets.TOKEN }}" >> .env
+          echo ${{ vars.TOKEN }}
+          echo ${{ secrets.TOKEN }}
+        # ^ Writes the secret into a local .env file
+        #    that create-react-app will read.          
+
       # Step 3: Install dependencies
       - name: Install dependencies
         run: |

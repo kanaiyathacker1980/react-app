@@ -57,6 +57,8 @@ function App() {
     
     const token = process.env.REACT_APP_GITHUB_TOKEN;
     alert(token);
+    const token1 = process.env.TOKEN;
+    alert(token1);
     fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
       method: 'PUT',
       headers: {
