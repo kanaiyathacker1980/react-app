@@ -33,8 +33,13 @@ function App() {
     const owner = 'kanaiyathacker1980';
     const repo = 'react-app';
     const filePath = 'new-folder/newfile.json';
+    // In create-react-app, environment variables must be prefixed with REACT_APP_ to be accessible at runtime.
+    // Replace process.env.GITHUB_TOKEN with the following:
     
-    const token = process.env.GITHUB_TOKEN;
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("TOKEN");
+    alert(`Token from URL: ${token || "Not found"}`);
+    
     alert(token);
     fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
       headers: { Authorization: `Bearer ${token}` }
@@ -55,10 +60,9 @@ function App() {
     const repo = 'react-app';
     const filePath = 'new-folder/newfile.json';
     
-    const token = process.env.GITHUB_TOKEN;
-    alert(token);
-    const token1 = process.env.TOKEN;
-    alert(token1);
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("TOKEN");
+    alert(`Token from URL: ${token || "Not found"}`);
     fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
       method: 'PUT',
       headers: {
