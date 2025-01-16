@@ -26,7 +26,7 @@ jobs:
           echo "Contents of .env:"
           cat .env
           echo ${{ vars.TOKEN }}
-          echo ${{ secrets.GITHUB_TOKEN }}
+          echo "TOKEN + ${{ secrets.GITHUB_TOKEN }}"
           
 
         # ^ Writes the secret into a local .env file
