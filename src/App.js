@@ -10,6 +10,11 @@ function App() {
   });
 
   const runWorkflow = (e) => {
+    // const parameters = {
+    //   name: formData.name,
+    //   email: formData.email,
+    //   message: formData.message,
+    // };
     e.preventDefault();
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("TOKEN");
@@ -24,7 +29,12 @@ function App() {
         Accept: "application/vnd.github.v3+json",
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ ref: "master" })
+      body: JSON.stringify({
+        ref: "master", // Specify the branch or tag
+        inputs: {
+          message: "This is a custom message from the React app!" // Pass your parameter here
+        }
+      })
     })
       .then(response => {
         if (response.status === 204) {
@@ -41,6 +51,7 @@ function App() {
         console.error(error);
       });
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
