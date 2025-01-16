@@ -1,10 +1,16 @@
 name: Print Hello World
+
 on:
   workflow_dispatch:
+    inputs:
+      message: # Define a custom input
+        description: "Custom message to print" # A description for the input   
+        required: true                        # Mark as required
+        default: "Hello, world!"             # Default value if no input is provided
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Print message
-        run: echo "Hello world"
+        run: echo "${{ github.event.inputs.message }}" # Access the input value
