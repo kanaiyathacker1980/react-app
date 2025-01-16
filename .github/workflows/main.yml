@@ -25,6 +25,9 @@ jobs:
           echo "REACT_APP_GITHUB_TOKEN=${{ secrets.TOKEN }}" >> .env
           echo ${{ vars.TOKEN }}
           echo ${{ secrets.TOKEN }}
+          echo "Secret length: ${#TOKEN}"         # prints the length
+          echo "Secret partial: ${TOKEN:0:3}***" # prints partial
+
         # ^ Writes the secret into a local .env file
         #    that create-react-app will read.          
 
