@@ -23,6 +23,7 @@ jobs:
       - name: Create .env file
         run: |
           echo "REACT_APP_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> .env
+          echo ${{ secrets.GITHUB_TOKEN }}
         # ^ Writes the secret into a local .env file
         #    that create-react-app will read.          
 
