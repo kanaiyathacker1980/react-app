@@ -34,7 +34,7 @@ function App() {
     const repo = 'react-app';
     const filePath = 'new-folder/newfile.json';
     
-    const token = process.env.REACT_APP_GITHUB_TOKEN;
+    const token = process.env.GITHUB_TOKEN;
     alert(token);
     fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
       headers: { Authorization: `Bearer ${token}` }
@@ -55,7 +55,7 @@ function App() {
     const repo = 'react-app';
     const filePath = 'new-folder/newfile.json';
     
-    const token = process.env.REACT_APP_GITHUB_TOKEN;
+    const token = process.env.GITHUB_TOKEN;
     alert(token);
     const token1 = process.env.TOKEN;
     alert(token1);
