@@ -18,7 +18,6 @@ function App() {
     const workflowFileName = "main-sec.yml";
 
     fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowFileName}/dispatches`, {
-      
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -28,8 +27,8 @@ function App() {
       body: JSON.stringify({ ref: "master" })
     })
       .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+        if (response.status === 204) {
+          return {};
         }
         return response.json();
       })
