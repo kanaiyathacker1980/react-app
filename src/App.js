@@ -70,7 +70,6 @@ function App() {
     
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("TOKEN");
-    alert(`Token from URL: ${token || "Not found"}`);
     
     alert(token);
     fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
@@ -92,23 +91,33 @@ function App() {
     const repo = 'react-app';
     const filePath = 'new-folder/newfile.json';
     
+
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("TOKEN");
-    alert(`Token from URL: ${token || "Not found"}`);
+    
     fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: 'Create new file',
-        content: btoa(JSON.stringify(newContent)),
-      }),
+      headers: { Authorization: `Bearer ${token}` }
     })
-      .then((res) => res.json())
-      .then((data) => console.log('File created:', data))
-      .catch((error) => console.error('Error:', error));
+      .then(response => response.json())
+      .then(data => {
+        const sha = data.sha;
+        fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: 'Create or update file',
+            content: btoa(JSON.stringify(newContent)),
+            sha: sha
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log('File created or updated:', data))
+          .catch((error) => console.error('Error:', error));
+      })
+      .catch(error => console.error('Error fetching file:', error));
   
   };
 
