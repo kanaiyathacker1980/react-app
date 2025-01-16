@@ -9,6 +9,39 @@ function App() {
     message: '',
   });
 
+  const runWorkflow = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("TOKEN");
+    const owner = "kanaiyathacker1980";
+    const repo = "react-app";
+    const workflowFileName = "main-sec.yml";
+
+    fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowFileName}/dispatches`, {
+      
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github.v3+json",
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ref: "master" })
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert("Workflow triggered successfully!");
+        console.log(data);
+      })
+      .catch(error => {
+        alert("Error triggering workflow");
+        console.error(error);
+      });
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -120,6 +153,10 @@ function App() {
           <button type="button" style={{ padding: '10px 20px', cursor: 'pointer' }} onClick={writeFile}>
             Write File
           </button>
+          <button type="button" style={{ padding: '10px 20px', cursor: 'pointer' }} onClick={runWorkflow}>
+            Run Workflow
+          </button>
+
         </form>
       </header>
     </div>
