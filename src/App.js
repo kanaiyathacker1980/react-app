@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import configData from './config/config-file.json';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -16,6 +17,61 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     alert(`Form submitted: \nName: ${formData.name}\nEmail: ${formData.email}\nMessage: ${formData.message}`);
+  };
+
+  const readFile = (e) => {
+    e.preventDefault();
+    // simplyfy json data
+    const simplifiedData = JSON.stringify(configData, null, 2);
+    alert(simplifiedData);
+  };
+
+  const readFileFromGitHub = (e) => {
+    e.preventDefault();
+    // simplyfy json data
+
+    const owner = 'kanaiyathacker1980';
+    const repo = 'react-app';
+    const filePath = 'new-folder/newfile.json';
+    
+    const token = process.env.REACT_APP_GITHUB_TOKEN;
+    alert(token);
+    fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(response => response.json())
+      .then(data => {
+        const fileContent = atob(data.content);
+        alert(JSON.stringify(JSON.parse(fileContent), null, 2));
+      })
+      .catch(error => console.error('Error:', error));
+  };
+
+  const writeFile = (e) => {
+    e.preventDefault();
+    const newContent = { exampleKey: 'exampleValue' };
+
+    const owner = 'kanaiyathacker1980';
+    const repo = 'react-app';
+    const filePath = 'new-folder/newfile.json';
+    
+    const token = process.env.REACT_APP_GITHUB_TOKEN;
+    alert(token);
+    fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: 'Create new file',
+        content: btoa(JSON.stringify(newContent)),
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log('File created:', data))
+      .catch((error) => console.error('Error:', error));
+  
   };
 
   return (
@@ -48,6 +104,15 @@ function App() {
           />
           <button type="submit" style={{ padding: '10px 20px', cursor: 'pointer' }}>
             Submit
+          </button>
+          <button type="button" style={{ padding: '10px 20px', cursor: 'pointer' }} onClick={readFile}>
+            Read File
+          </button>
+          <button type="button" style={{ padding: '10px 20px', cursor: 'pointer' }} onClick={readFileFromGitHub}>
+            Read File from GitHub
+          </button>
+          <button type="button" style={{ padding: '10px 20px', cursor: 'pointer' }} onClick={writeFile}>
+            Write File
           </button>
         </form>
       </header>
